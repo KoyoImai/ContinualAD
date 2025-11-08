@@ -1,4 +1,4 @@
-# [CVPR 2025] One-for-More
+# [CVPR 2025] One-for-Moreをベースにした異常検知の継続学習
 **One-for-More: Continual Diffusion Model for Anomaly Detection**
 
 
