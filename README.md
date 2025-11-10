@@ -119,6 +119,11 @@ Few-shot 異常検知継続学習の実行は以下を実行してください�
     python scripts/train_mvtec_fs.py --setting [ID]
     python scripts/train_visa_fs.py --setting [ID]
     ```
+- Diffusion Model
+    ```
+    python 
+    python
+    ```
 
 The images are saved under `./log_image/`
 The training logs are saved under `./log`
