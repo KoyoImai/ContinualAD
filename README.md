@@ -1,13 +1,23 @@
 # [CVPR 2025] One-for-Moreをベースにした異常検知の継続学習
 **One-for-More: Continual Diffusion Model for Anomaly Detection**
 
-## 1. Installation
+## 1. プログラムの概要
+学習・評価に使用するプログラムの全体像は以下の通りです．
+"""
+ContinualAD
+├── cdm                  : CDADの主要プログラムが格納されたディレクトリ
+├── ldm                  : Latent Diffusion Model関連のプログラムを格納したディレクトリ
+├── models               : 
+├── scripts              : 
+├── training             : 
+├── utils                : 
+├── build_base_model.py  : 
+├── config.py            : 
+├── install.sh           : 
+└── share.py             : 
+"""
 
-First create a new conda environment
 
-    $ conda create -n cdad python==3.8.5
-    $ conda activate cdad
-    $ bash install.bash
 ## 2.Dataset
 ### 2.1 MVTec-AD
 - **Create the MVTec-AD dataset directory**. Download the MVTec-AD dataset from [MVTec-AD](https://www.mvtec.com/company/research/datasets/mvtec-ad). Unzip the file and move them to `./data/mvtec_anomaly_detection/`. The MVTec-AD dataset directory should be as follows. 
