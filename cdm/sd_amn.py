@@ -25,6 +25,8 @@ class SD_AMN(LatentDiffusion):
     def __init__(self, control_stage_config, control_key, layers, distance, log_name, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.use_gpm = True    # gpmによる勾配直交射影を行うか
+
         self.automatic_optimization = False
 
         self.control_model = instantiate_from_config(control_stage_config)
@@ -59,6 +61,10 @@ class SD_AMN(LatentDiffusion):
 
         opt = torch.optim.AdamW(params, lr=lr)
         return opt
+    
+    # Gradient Projection Memory(GPM)を使用するかを設定
+    def set_gpm(self, flag: bool=True):
+        self.use_gpm = flag
 
     def set_log_name(self, log_name):
         self.log_name = log_name
@@ -108,7 +114,7 @@ class SD_AMN(LatentDiffusion):
         opt.zero_grad()
         self.manual_backward(loss)
 
-        if not self.task_id == 0:
+        if (not self.task_id == 0) and (self.use_gpm):
 
             for name, param in self.control_model.named_parameters():
                 if sub_(name) in self.project.keys() and re.search('.weight', name):

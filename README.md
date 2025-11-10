@@ -121,7 +121,7 @@ Few-shot 異常検知継続学習の実行は以下を実行してください�
     ```
 - Diffusion Model
     ```
-    python 
+    python scripts/train_mvtec_fs.py --config_path "models/cdad_mvtec.yaml" --gpm "off" --setting [ID]
     python
     ```
 

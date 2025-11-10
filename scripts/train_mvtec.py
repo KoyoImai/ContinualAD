@@ -20,6 +20,7 @@ def main(args):
 
     # modelの作成
     model = create_model('models/cdad_mvtec.yaml').cpu()
+    model.set_gpm(args.gpm == "on")
 
     # stable difusionの事前学習済みパラメータを読み込み
     weights = torch.load(args.resume_path)
@@ -93,6 +94,8 @@ if __name__ == "__main__":
     parser.add_argument("--inc_epoch", default=100, type=int)    # 追加タスクの学習エポック数
 
     parser.add_argument("--config_path", default="models/cdad_mvtec.yaml", type=str)    # configファイルまでのパス
+
+    parser.add_argument("--gpm", choices=["on", "collect", "off"], default="on")        # gpmによる勾配直交を行うか
 
     parser.add_argument("--check_v", default=25, type=int)
 
