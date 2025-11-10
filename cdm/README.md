@@ -28,4 +28,8 @@ CDADの本体は`gpm.py`で実装されています．
 パラメータの最適化は`sd_amn.py`の`SD_AMN.training_step()`で行われます．
 ベースタスクは通常の最適化を行い，task id > 0の場合はGradient Projection memory (GPM) によって勾配直行射影を適用します．
 
+### GPMの計算と保持
+GPMの計算は`trainer.test(model, dataloaders=gpm_dataloader)`で実行されます．
+
+
 

@@ -11,16 +11,20 @@ from cdm.model import create_model, load_state_dict
 from pytorch_lightning.callbacks import ModelCheckpoint
 import argparse
 
+# few-shot用の追加
+from utils.fewshot_helper import stratified_ratio_indices
+
 
 def main(args):
     setup_seed(args.seed)
 
     # log名の決定
-    log_name = f'mvtec_setting{args.setting}'
+    log_name = f'debug_mvtec_setting{args.setting}'
 
     # modelの作成
-    model = create_model('models/cdad_mvtec.yaml').cpu()
+    model = create_model(args.config_path).cpu()
     model.set_gpm(args.gpm == "on")
+    print("model.use_gpm: ", model.use_gpm)
 
     # stable difusionの事前学習済みパラメータを読み込み
     weights = torch.load(args.resume_path)
@@ -54,7 +58,7 @@ def main(args):
                     accumulate_grad_batches=1,     # Do not change!!!
                     max_epochs=args.max_epoch,
                     check_val_every_n_epoch=args.check_v,
-                    enable_progress_bar=False
+                    enable_progress_bar=True
                     )
 
 
@@ -68,8 +72,9 @@ def main(args):
         
         model.load_state_dict(load_state_dict(trainer.checkpoint_callback.best_model_path, location='cuda'), strict=False)
 
-        # test is used to process gradient projection
-        trainer.test(model, dataloaders=gpm_dataloader)
+        # gpmの基底計算を実行
+        if args.gpm in ["on", "collect"]:
+            trainer.test(model, dataloaders=gpm_dataloader)
 
 if __name__ == "__main__":
 
@@ -83,21 +88,21 @@ if __name__ == "__main__":
 
     parser.add_argument("--seed", default=1, type=int)
 
-    parser.add_argument("--batch_size", default=12, type=int)
+    parser.add_argument("--batch_size", default=6, type=int)
 
     parser.add_argument("--gpm_batch_size", default=1, type=int)
 
     parser.add_argument("--learning_rate", default=1e-5, type=float)
 
-    parser.add_argument("--max_epoch", default=500, type=int)    # ベースタスクの学習エポック数
+    parser.add_argument("--max_epoch", default=1, type=int)    # ベースタスクの学習エポック数
 
-    parser.add_argument("--inc_epoch", default=100, type=int)    # 追加タスクの学習エポック数
+    parser.add_argument("--inc_epoch", default=1, type=int)    # 追加タスクの学習エポック数
 
     parser.add_argument("--config_path", default="models/cdad_mvtec.yaml", type=str)    # configファイルまでのパス
 
     parser.add_argument("--gpm", choices=["on", "collect", "off"], default="on")        # gpmによる勾配直交を行うか
 
-    parser.add_argument("--check_v", default=25, type=int)
+    parser.add_argument("--check_v", default=1, type=int)
 
     args = parser.parse_args()
 
