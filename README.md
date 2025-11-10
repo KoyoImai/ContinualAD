@@ -4,7 +4,7 @@
 ## 1. プログラムの概要
 学習・評価に使用するプログラムの全体像は以下の通りです．
 
-"""
+```
 ContinualAD
 ├── cdm                  : CDADの主要プログラムが格納されたディレクトリ
 ├── ldm                  : Latent Diffusion Model関連のプログラムを格納したディレクトリ
@@ -16,7 +16,7 @@ ContinualAD
 ├── config.py            : 
 ├── install.sh           : 
 └── share.py             : 
-"""
+```
 
 
 ## 2.Dataset
