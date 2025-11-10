@@ -92,6 +92,8 @@ if __name__ == "__main__":
 
     parser.add_argument("--inc_epoch", default=100, type=int)    # 追加タスクの学習エポック数
 
+    parser.add_argument("--config_path", default="models/cdad_mvtec.yaml", type=str)    # configファイルまでのパス
+
     parser.add_argument("--check_v", default=25, type=int)
 
     args = parser.parse_args()

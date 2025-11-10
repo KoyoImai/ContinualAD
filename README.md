@@ -104,8 +104,8 @@ MVTecとVisaデータセットのタスク設定は以下の表に示す通り�
 
 - CDAD ([paper](https://arxiv.org/pdf/2502.19848)):
     ```
-    python scripts/train_mvtec.py --setting [ID]
-    python scripts/train_visa.py --setting [ID]
+    python scripts/train_mvtec.py --config_path "models/cdad_mvtec.yaml" --setting [ID]
+    python scripts/train_visa.py --config_path "models/cdad_mvtec.yaml" --setting [ID]
     ```
 - Diffusion Model
     ```
@@ -116,8 +116,8 @@ MVTecとVisaデータセットのタスク設定は以下の表に示す通り�
 Few-shot 異常検知継続学習の実行は以下を実行してください．
 - CDAD ([paper](https://arxiv.org/pdf/2502.19848)):
     ```
-    python scripts/train_mvtec_fs.py --setting [ID]
-    python scripts/train_visa_fs.py --setting [ID]
+    python scripts/train_mvtec_fs.py --config_path "models/cdad_mvtec.yaml" --setting [ID]
+    python scripts/train_visa_fs.py --config_path "models/cdad_mvtec.yaml" --setting [ID]
     ```
 - Diffusion Model
     ```
