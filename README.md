@@ -87,7 +87,9 @@ Visaデータセットのディレクトリ構成は以下の通りです．
 
 
 ## 4. 学習
-The incremental settings for the MVTec and VisA datasets are shown in the table.
+<!-- The incremental settings for the MVTec and VisA datasets are shown in the table. -->
+MVTecとVisaデータセットのタスク設定は以下の表に示す通りです．
+
 | Dataset | Setting ID |   Incremental setting   |
 |:-------:|:--:|:-----------------------:|
 |  MVTec  |  1 |    14 - 1 with 1 Step   |
@@ -98,7 +100,7 @@ The incremental settings for the MVTec and VisA datasets are shown in the table.
 |   VisA  |  2 |    8 - 4 with 1 Step    |
 |   VisA  |  3 |   8 - 1 ✖️ with 4 Steps   |
 
-The training scripts are as follows:
+学習の実行は以下を実行してください．
 
     $ python scripts/train_mvtec.py --setting [ID]
     $ python scripts/train_visa.py --setting [ID]
