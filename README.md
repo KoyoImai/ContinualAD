@@ -86,7 +86,7 @@ Visaデータセットのディレクトリ構成は以下の通りです．
     $ python build_base_model.py
 
 
-## 4. 学習
+## 4. 訓練の実行方法
 <!-- The incremental settings for the MVTec and VisA datasets are shown in the table. -->
 MVTecとVisaデータセットのタスク設定は以下の表に示す通りです．
 
@@ -100,10 +100,25 @@ MVTecとVisaデータセットのタスク設定は以下の表に示す通り�
 |   VisA  |  2 |    8 - 4 with 1 Step    |
 |   VisA  |  3 |   8 - 1 ✖️ with 4 Steps   |
 
-学習の実行は以下を実行してください．
+通常異常検知継続学習の実行は以下を実行してください．
 
-    $ python scripts/train_mvtec.py --setting [ID]
-    $ python scripts/train_visa.py --setting [ID]
+- CDAD ([paper](https://arxiv.org/pdf/2502.19848)):
+    ```
+    python scripts/train_mvtec.py --setting [ID]
+    python scripts/train_visa.py --setting [ID]
+    ```
+- Diffusion Model
+    ```
+    python 
+    python
+    ```
+
+Few-shot 異常検知継続学習の実行は以下を実行してください．
+- CDAD ([paper](https://arxiv.org/pdf/2502.19848)):
+    ```
+    python scripts/train_mvtec_fs.py --setting [ID]
+    python scripts/train_visa_fs.py --setting [ID]
+    ```
 
 The images are saved under `./log_image/`
 The training logs are saved under `./log`
