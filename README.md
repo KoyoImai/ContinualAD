@@ -1,4 +1,4 @@
-# [CVPR 2025] One-for-Moreをベースにした異常検知の継続学習
+# One-for-Moreをベースにした異常検知の継続学習
 **One-for-More: Continual Diffusion Model for Anomaly Detection**
 
 ## 1. プログラムの概要
@@ -21,7 +21,9 @@ ContinualAD
 
 ## 2.Dataset
 ### 2.1 MVTec-AD
-- **Create the MVTec-AD dataset directory**. Download the MVTec-AD dataset from [MVTec-AD](https://www.mvtec.com/company/research/datasets/mvtec-ad). Unzip the file and move them to `./data/mvtec_anomaly_detection/`. The MVTec-AD dataset directory should be as follows. 
+<!-- - **Create the MVTec-AD dataset directory**. Download the MVTec-AD dataset from [MVTec-AD](https://www.mvtec.com/company/research/datasets/mvtec-ad). Unzip the file and move them to `./data/mvtec_anomaly_detection/`. The MVTec-AD dataset directory should be as follows.  -->
+MVTec-ADデータセットのディレクトリ構成は以下の通りです．
+[MVTec-AD](https://www.mvtec.com/company/research/datasets/mvtec-ad)からデータセットをダウンロードし．以下のように配置してください．
 
 ```
 |-- data
@@ -49,7 +51,9 @@ ContinualAD
 ```
 
 ### 2.2 VisA
-- **Create the VisA dataset directory**. Download the VisA dataset from [VisA_20220922.tar](https://amazon-visual-anomaly.s3.us-west-2.amazonaws.com/VisA_20220922.tar). Unzip the file and move them to `./VisA/`. The VisA dataset directory should be as follows. 
+<!-- - **Create the VisA dataset directory**. Download the VisA dataset from [VisA_20220922.tar](https://amazon-visual-anomaly.s3.us-west-2.amazonaws.com/VisA_20220922.tar). Unzip the file and move them to `./VisA/`. The VisA dataset directory should be as follows.  -->
+Visaデータセットのディレクトリ構成は以下の通りです．
+[VisA_20220922.tar](https://amazon-visual-anomaly.s3.us-west-2.amazonaws.com/VisA_20220922.tar)からデータセットをダウンロードし．以下のように配置してください．
 
 ```
 |-- data
@@ -67,20 +71,22 @@ ContinualAD
 ```
 
 
-## 3. Build the model
-First download the checkpoint of AutoEncoder and diffusion model, we use the pre-trained stable diffusion v1.5.
+## 3. 事前学習済みモデルの準備
+<!-- First download the checkpoint of AutoEncoder and diffusion model, we use the pre-trained stable diffusion v1.5. -->
+以下の手順に従ってAutoEncoderとDiffusion Modelの学習済みパラメータを用意してください．
 
     $ wget https://ommer-lab.com/files/latent-diffusion/kl-f8.zip
     $ unzip kl-f8.zip
     $ wget https://huggingface.co/stable-diffusion-v1-5/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt
     
 
-Then run the code to get the output model `./models/base.ckpt`.
+<!-- Then run the code to get the output model `./models/base.ckpt`. -->
+その後，`./models/base.ckpt`.を実行してモデルを獲得してください．
 
     $ python build_base_model.py
 
 
-## 4. Train
+## 4. 学習
 The incremental settings for the MVTec and VisA datasets are shown in the table.
 | Dataset | Setting ID |   Incremental setting   |
 |:-------:|:--:|:-----------------------:|
