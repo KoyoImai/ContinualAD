@@ -155,6 +155,7 @@ class SD_AMN(LatentDiffusion):
 
         for i in range(anomaly_map.shape[0]):
             anomaly_map[i] = gaussian_filter(anomaly_map[i], sigma=5)
+            
         anomaly_map = torch.from_numpy(anomaly_map)
         anomaly_map_prediction = anomaly_map.unsqueeze(dim=1)
 

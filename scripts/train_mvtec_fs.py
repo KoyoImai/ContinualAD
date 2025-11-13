@@ -20,7 +20,7 @@ def main(args):
     setup_seed(args.seed)
 
     # log名の決定
-    log_name = f'debug_fewshot_mvtec_setting{args.setting}'
+    log_name = f'debug_fewshot_mvtec_gpm{args.gpm}_setting{args.setting}'
 
     # modelの作成
     model = create_model(args.config_path).cpu()
@@ -90,14 +90,17 @@ def main(args):
         gpm_dataloader = DataLoader(train_dataset[i], num_workers=8, batch_size=args.gpm_batch_size, shuffle=False)
         test_dataloader = DataLoader(test_dataset[i], num_workers=8, batch_size=args.batch_size, shuffle=False)
 
-        # model の訓練
-        trainer.fit(model, train_dataloaders=train_dataloader, val_dataloaders=test_dataloader)
+        print("len(train_dataloader): ", len(train_dataloader))
+        print("len(test_dataloader): ", len(test_dataloader))
         
-        model.load_state_dict(load_state_dict(trainer.checkpoint_callback.best_model_path, location='cuda'), strict=False)
+        # # model の訓練
+        # trainer.fit(model, train_dataloaders=train_dataloader, val_dataloaders=test_dataloader)
+        
+        # model.load_state_dict(load_state_dict(trainer.checkpoint_callback.best_model_path, location='cuda'), strict=False)
 
-        # gpmの基底計算を実行
-        if args.gpm in ["on", "collect"]:
-            trainer.test(model, dataloaders=gpm_dataloader)
+        # # gpmの基底計算を実行
+        # if args.gpm in ["on", "collect"]:
+        #     trainer.test(model, dataloaders=gpm_dataloader)
 
 if __name__ == "__main__":
 
@@ -111,7 +114,7 @@ if __name__ == "__main__":
 
     parser.add_argument("--seed", default=1, type=int)
 
-    parser.add_argument("--batch_size", default=6, type=int)
+    parser.add_argument("--batch_size", default=12, type=int)
 
     parser.add_argument("--gpm_batch_size", default=1, type=int)
 
@@ -119,7 +122,7 @@ if __name__ == "__main__":
 
     parser.add_argument("--base_epoch", default=1, type=int)    # ベースタスクの学習エポック数
 
-    parser.add_argument("--inc_epoch", default=3, type=int)     # 追加タスクの学習エポック数
+    parser.add_argument("--inc_epoch", default=2, type=int)     # 追加タスクの学習エポック数
 
     parser.add_argument("--config_path", default="models/cdad_mvtec.yaml", type=str)    # configファイルまでのパス
 
@@ -128,8 +131,8 @@ if __name__ == "__main__":
     parser.add_argument("--check_v", default=1, type=int)
 
     # few-shot用
-    parser.add_argument("--inc_sample_ratio", default=0.5, type=float)     # few-shot時の追加タスクのサンプル割合
-    parser.add_argument("--fewshot_min", default=10, type=int)            # few-shotサンプル数の加減
+    parser.add_argument("--inc_sample_ratio", default=0.2, type=float)     # few-shot時の追加タスクのサンプル割合
+    parser.add_argument("--fewshot_min", default=10, type=int)             # few-shotサンプル数の加減
     parser.add_argument("--fewshot_seed", default=0, type=int)             # few-shotサンプル選択時のseed値
 
     args = parser.parse_args()

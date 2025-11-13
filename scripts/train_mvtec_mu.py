@@ -6,7 +6,7 @@ from utils.util import *
 import torch
 import pytorch_lightning as pl
 from torch.utils.data import DataLoader
-from data.mvtecad_dataloader import MVTecDataset_cad
+from data.mvtecad_mu_dataloader import MVTecDataset_cad
 from cdm.model import create_model, load_state_dict
 from pytorch_lightning.callbacks import ModelCheckpoint
 import argparse
@@ -107,8 +107,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     main(args)
-
-
 
 
 

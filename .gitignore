@@ -4,6 +4,7 @@ lightning_logs
 incre_val
 data
 kl-f8.zip
+TEST
 
 __pycache__/
 *.pyc

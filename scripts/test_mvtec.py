@@ -15,9 +15,17 @@ from utils.util import cal_anomaly_map, log_local, setup_seed
 from tqdm import tqdm
 from data.mvtecad_dataloader import MVTecDataset_cad
 
+
+from cdm.model import create_model, load_state_dict
+
 def main(args):
 
-    resume_path = f'./incre_val/mvtec_setting{args.setting}/task{args.task}_best.ckpt'
+    # 通常
+    # resume_path = f'./incre_val/mvtec_setting{args.setting}/task{args.task}_best.ckpt'
+
+    # few-shot & gpm off
+    resume_path = f'./incre_val/fewshot_mvtec_gpmoff_setting{args.setting}/task{args.task}_best.ckpt'
+
 
     setup_seed(args.seed)
 
@@ -25,8 +33,15 @@ def main(args):
 
     log = f'demo_task{args.task}'
 
-    weights = torch.load(resume_path)
-    model.load_state_dict(weights, strict=False)
+    # モデル読み込みがうまくいっていない
+    # weights = torch.load(resume_path)
+    # model.load_state_dict(weights, strict=False)
+    # # print("weights['state_dict'].keys(): ", weights['state_dict'].keys())
+    # # assert False
+
+    state = load_state_dict(resume_path, location='cpu')
+    model.load_state_dict(state, strict=False)
+
 
     # Misc
     dataset, _ = MVTecDataset_cad('test', args.data_path, args.setting)
