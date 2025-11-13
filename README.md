@@ -133,9 +133,14 @@ Machine Unlearning 異常検知継続学習の実行は以下を実行してく�
     ```
 - Diffusion Model
     ```
-    python scripts/train_mvtec_mu.py --config_path "models/cdad_mvtec.yaml" --gpm "off" --setting [ID]
+    python scripts/train_mvtec_mu.py --config_path "models/cdad_mvtec.yaml" --gpm "off" --log_base "default"  --setting 1
     python  
     ```
+
+TensorBoardは以下で実行可能です．
+    
+    tensorboard --logdir /home/kouyou/ContinualLearning/repexp/One-for-More/tb_logs/ --port 6006 --host localhost
+
 
 The images are saved under `./log_image/`
 The training logs are saved under `./log`

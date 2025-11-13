@@ -11,15 +11,15 @@ from cdm.model import create_model, load_state_dict
 from pytorch_lightning.callbacks import ModelCheckpoint
 import argparse
 
-# few-shot用の追加
-from utils.fewshot_helper import stratified_ratio_indices
+
+from pytorch_lightning.loggers import TensorBoardLogger
 
 
 def main(args):
     setup_seed(args.seed)
 
     # log名の決定
-    log_name = f'debug_mvtec_setting{args.setting}'
+    log_name = f'{args.log_base}_mvtec_mu_gpm{args.gpm}_setting{args.setting}'
 
     # modelの作成
     model = create_model(args.config_path).cpu()
@@ -50,6 +50,15 @@ def main(args):
             dirpath=f'./incre_val/{log_name}/',
             filename=f'task{i}_best',
             mode='max')
+        
+
+        # 例: 既存の log_name と task 番号を反映
+        tb_logger = TensorBoardLogger(
+            save_dir="tb_logs",                 # 出力ルート（任意）
+            name=f"{log_name}",                 # 例: mvtec_setting1
+            version=f"task{i}",                 # 例: task0 / task1 ...
+            default_hp_metric=False,
+        )
 
         # trainerの作成
         trainer = pl.Trainer(gpus=1, precision=32,
@@ -58,7 +67,8 @@ def main(args):
                     accumulate_grad_batches=1,     # Do not change!!!
                     max_epochs=args.max_epoch,
                     check_val_every_n_epoch=args.check_v,
-                    enable_progress_bar=True
+                    enable_progress_bar=True,
+                    logger=tb_logger,
                     )
 
 
@@ -82,7 +92,7 @@ if __name__ == "__main__":
 
     parser.add_argument("--resume_path", default='./models/base.ckpt')
 
-    parser.add_argument("--data_path", default="./data/mvtec_anomaly_detection", type=str)
+    parser.add_argument("--data_path", default="./data/mvtec_anomaly_detection_for_mu", type=str)
 
     parser.add_argument("--setting", default=1, type=int)
 
@@ -94,15 +104,18 @@ if __name__ == "__main__":
 
     parser.add_argument("--learning_rate", default=1e-5, type=float)
 
-    parser.add_argument("--max_epoch", default=1, type=int)    # ベースタスクの学習エポック数
+    parser.add_argument("--max_epoch", default=500, type=int)    # ベースタスクの学習エポック数
 
-    parser.add_argument("--inc_epoch", default=1, type=int)    # 追加タスクの学習エポック数
+    parser.add_argument("--inc_epoch", default=100, type=int)    # 追加タスクの学習エポック数
 
     parser.add_argument("--config_path", default="models/cdad_mvtec.yaml", type=str)    # configファイルまでのパス
 
     parser.add_argument("--gpm", choices=["on", "collect", "off"], default="on")        # gpmによる勾配直交を行うか
 
-    parser.add_argument("--check_v", default=1, type=int)
+    parser.add_argument("--check_v", default=25, type=int)
+
+    # log名のベース
+    parser.add_argument("--log_base", default="mu_default", type=str)
 
     args = parser.parse_args()
 
