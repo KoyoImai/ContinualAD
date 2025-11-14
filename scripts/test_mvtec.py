@@ -14,17 +14,21 @@ import cv2
 from utils.util import cal_anomaly_map, log_local, setup_seed
 from tqdm import tqdm
 from data.mvtecad_dataloader import MVTecDataset_cad
+# from data.mvtecad_mu_dataloader import MVTecDataset_cad    # MU用
 
 
 from cdm.model import create_model, load_state_dict
 
 def main(args):
 
-    # 通常
+    # # 通常
     # resume_path = f'./incre_val/mvtec_setting{args.setting}/task{args.task}_best.ckpt'
 
     # few-shot & gpm off
-    resume_path = f'./incre_val/fewshot_mvtec_gpmoff_setting{args.setting}/task{args.task}_best.ckpt'
+    resume_path = f'./incre_val/fewshot_mvtec_gpmon_setting{args.setting}/task{args.task}_best.ckpt'
+
+    # MU
+    # resume_path = f'./incre_val/default_mvtec_mu_gpmoff_setting{args.setting}/task{args.task}_best.ckpt'
 
 
     setup_seed(args.seed)
@@ -53,7 +57,7 @@ def main(args):
 
     result = {'clsname':[], 'filename':[], 'pred':[], 'mask':[], 'input':[]}
 
-    evl_dir = "TEST/mvtec"
+    evl_dir = f"TEST_{args.eval_log}/mvtec"
     os.makedirs(f"{evl_dir}/image", exist_ok=True)
     os.makedirs(f"{evl_dir}/log/setting{args.setting}/", exist_ok=True)
 
@@ -144,6 +148,8 @@ if __name__ == "__main__":
     parser.add_argument("--seed", default=1, type=int)
 
     parser.add_argument("--batch_size", default=12, type=int)
+
+    parser.add_argument("--eval_log", default="", type=str)
 
     args = parser.parse_args()
 

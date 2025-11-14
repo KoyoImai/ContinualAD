@@ -2,9 +2,10 @@ logs
 log_image
 lightning_logs
 incre_val
-data
 kl-f8.zip
-TEST
+TEST*
+mvtec_anomaly_detection
+mvtec_anomaly_detection_for_mu
 
 __pycache__/
 *.pyc
